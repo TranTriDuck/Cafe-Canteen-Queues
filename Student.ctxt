@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=Student
+comment0.text=\r\n\ \r\n\r\n\ @author\ Duc\ Tran\ Tri\r\n\ @version\ (17/06/2025)\r\n
+comment1.params=
+comment1.target=Student()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Node\r\n
+comment2.params=student
+comment2.target=void\ setStuden(java.lang.String)
+comment2.text=-setters-
+comment3.params=next
+comment3.target=void\ setNextStudent(Student)
+comment4.params=
+comment4.target=java.lang.String\ getStudent()
+comment4.text=getters
+comment5.params=
+comment5.target=Student\ getNextStudent()
+numComments=6
