@@ -65,7 +65,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
 
 
 
-    JTextField textField1;
+   //  JTextField textField1;
 
     JComboBox comboBox;
     String choice = " ";
@@ -102,7 +102,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
    {
     //Naming window method
     setTitle("Canteen Queue window");
-    this.getContentPane().setPreferredSize(new Dimension(1920,1080));
+    this.getContentPane().setPreferredSize(new Dimension(1980,1080)); // Set the preferred size of the content pane
     //                                                   Width, Heigh  
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     
@@ -155,6 +155,11 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
    panel1.setBackground(Color.decode("#f3f0df")); // Set background color to pink
    this.add(panel1, BorderLayout.NORTH);
 
+   //resize the panel2 to 100 pixels high and 500 pixels wide
+   // panel2.setPreferredSize(new Dimension(500, 100)); // Set preferred size of panel2
+   // panel2.setMinimumSize(new Dimension(500, 100)); // Set minimum size of panel2
+   // panel2.setMaximumSize(new Dimension(500, 100)); // Set maximum size of panel2
+   // panel2.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5)); // 10 pixels between components, 5 pixels between rows
 
    //Add a second panel to the window
    panel2 = new JPanel();
@@ -164,15 +169,15 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
 
 
    // //Add a third panel to the window
-   // JPanel panel3 = new JPanel();
-   // panel3.setLayout(new FlowLayout(FlowLayout.CENTER  , 10, 5)); // 10 pixels between components, 5 pixels between rows
-   // panel3.setBackground(Color.decode("#00FF00"));
-   // this.add(panel3, BorderLayout.SOUTH);
+   JPanel panel3 = new JPanel();
+   panel3.setLayout(new FlowLayout(FlowLayout.CENTER  , 10, 5)); // 10 pixels between components, 5 pixels between rows
+   panel3.setBackground(Color.decode("#f3f0df"));
+   this.add(panel3, BorderLayout.SOUTH);
 
-   // //Add a button to the first panel
-   // button1 = new JButton("Convert");
-   // button1.addActionListener(this);//allowing to create action fot the button
-   // panel1.add(button1);
+   //Add a button to the first panel
+   button1 = new JButton("Add student");
+   button1.addActionListener(this);//allowing to create action fot the button
+   panel2.add(button1);
    
    //Add WHS logo to the first panel in the CENTER of label 1 and label 2 e.g: (WHS logo) Wellington High School
    //Class variables for the image WHS logo
@@ -224,8 +229,8 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
    panel1.add(label2);
 
     //Add a text field to the first panel
-   textField1 = new JTextField(30); // 30 columns
-   panel1.add(textField1);
+   // textField1 = new JTextField(30); // 30 columns
+   // panel1.add(textField1);
 
 
    JComboBox comboBox;
@@ -242,7 +247,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
    
     //This method is called when a menu item is clicked
     public void actionPerformed(ActionEvent e) {
-        //System.out.println("You clicked the " + e.getActionCommand() + " menu item");
+        System.out.println("You clicked the " + e.getActionCommand() + " menu item");
         //Using if/else statements to determine which menu item was clicked
         //and print a message to the console
        String command = e.getActionCommand();
@@ -250,13 +255,16 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
 
        switch(command){
 
-            case "Convert":
-               System.out.println("Button clicked");
-               System.out.println(textField1.getText());
-               int input = Integer.parseInt(textField1.getText());//Print whatever is in the text field
-               label2= new JLabel(textField1.getText());
+            case "Add student":
+               System.out.println("Button clicked, adding one student to the queue");
+               // System.out.println(textField1.getText());
+               // int input = Integer.parseInt(textField1.getText());//Print whatever is in the text field
+               // label2= new JLabel(textField1.getText());
   
-               System.out.println(bouncer(input));
+               // System.out.println(bouncer(input));
+
+
+
                 break;
                 
             case "New":
@@ -283,6 +291,28 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
        }
     }
 
+    //Visualize the queue
+    //Adding two black rectangles to the panel2
+      //The first rectangle is 100 pixels wide and 50 pixels high
+      //The second rectangle is 100 pixels wide and 50 pixels high
+      public void paint(Graphics g) {
+         super.paint(g);
+         
+         //Set the color to black
+         //Set the color code to Gray
+         
+         g.setColor(Color.decode("#808080")); // Set color to gray
+
+         //Draw the first rectangle
+         g.fillRect(700, 630, 500, 20);
+         
+         //Draw the second rectangle
+         g.fillRect(700, 500, 20, 150);
+
+         
+         }
+
+   
 
     //Create a new method to create a dialog box for saving
     //This method creates a dialog box that contains the text "file successfully saved" when the user clicks save
@@ -350,10 +380,10 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
     }
 
     //Create a new method to check if the user are old enough to use the program
-    String bouncer (int age){
-      if(age > 18){return("Welcome to the program");}
-      else {return("You are not old enough to use this program");}
-    }
+   //  String bouncer (int age){
+   //    if(age > 18){return("Welcome to the program");}
+   //    else {return("You are not old enough to use this program");}
+   //  }
 
     public void mouseClicked(MouseEvent e) {System.out.println("Mouse clicked");
    
