@@ -57,11 +57,13 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
 
     JPanel panel1;
     JPanel panel2;
-    
-    JButton button1;
+    JPanel panel3;
 
+    JButton button1;
+   
     JLabel label1;
     JLabel label2;
+    JLabel label3;
 
 
 
@@ -149,30 +151,38 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
 
    /*---SET UP PANELS---*/
    panel1 = new JPanel();
-   panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS)); // Set layout to BoxLayout with vertical alignment
+   panel1.setLayout(new BoxLayout(panel1, BoxLayout.PAGE_AXIS)); // Set layout to BoxLayout with vertical alignment
 
-   //panel1.setLayout(new GridLayout(2, 2)); // 2 rows, 2 columns
-   panel1.setBackground(Color.decode("#f3f0df")); // Set background color to pink
-   this.add(panel1, BorderLayout.NORTH);
+   
+   panel1.setBackground(Color.decode("#f3f0df")); // Set background color to white
+   panel1.setPreferredSize(new Dimension(1980, 200)); // Set preferred size
+   panel1.add(Box.createRigidArea(new Dimension(0, 10))); // Add space at the top of the panel
+   //Use BoxLayout to align components vertically
 
-   //resize the panel2 to 100 pixels high and 500 pixels wide
-   // panel2.setPreferredSize(new Dimension(500, 100)); // Set preferred size of panel2
-   // panel2.setMinimumSize(new Dimension(500, 100)); // Set minimum size of panel2
-   // panel2.setMaximumSize(new Dimension(500, 100)); // Set maximum size of panel2
-   // panel2.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5)); // 10 pixels between components, 5 pixels between rows
+
 
    //Add a second panel to the window
    panel2 = new JPanel();
-   panel2.setLayout(new FlowLayout(FlowLayout.CENTER  , 10, 5)); // 10 pixels between components, 5 pixels between rows
-   panel2.setBackground(Color.decode("#7bb830"));
-   this.add(panel2, BorderLayout.CENTER);
+   // panel2.setLayout(new FlowLayout(FlowLayout.CENTER  , 10, 5)); // 10 pixels between components, 5 pixels between rows
+   panel2.setBackground(Color.decode("#7bb830")); // Set background color to green
+   panel2.setPreferredSize(new Dimension(1980, 100)); // Set preferred size of panel2
+   panel2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding around the panel
+   //Set position of panel2 above panel3 and below panel1
+
+
+
 
 
    // //Add a third panel to the window
-   JPanel panel3 = new JPanel();
-   panel3.setLayout(new FlowLayout(FlowLayout.CENTER  , 10, 5)); // 10 pixels between components, 5 pixels between rows
+   panel3 = new JPanel();
    panel3.setBackground(Color.decode("#f3f0df"));
-   this.add(panel3, BorderLayout.SOUTH);
+   // Set preferred size of panel3
+   panel3.setPreferredSize(new Dimension(1980, 500)); // Set preferred size
+   panel3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding around the panel
+   //Add panel3 to the bottom of the
+   //Set layout of panel3 to the end of the Jframe
+   panel3.setLayout(new BoxLayout(panel3, BoxLayout.PAGE_AXIS)); // Set layout
+
 
    //Add a button to the first panel
    button1 = new JButton("Add student");
@@ -224,11 +234,20 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
    label2 = new JLabel("Te Kura Tuarua o Taraika ki Pukeahu");
    label2.setFont(new Font("Arial", Font.BOLD, 40));
    label2.setForeground(Color.decode("#e64b6d")); // Set font color to #e64b6d
-   // label2.setAlignmentX(Component.CENTER_ALIGNMENT); //move the lebel to the right side of the image
-
+  
+   //Set the size of the label2 only enough to fit the text
+   label2.setPreferredSize(new Dimension(500, 50)); 
    panel1.add(label2);
+   
 
-    //Add a text field to the first panel
+   label3 = new JLabel("Canteen");
+   label3.setFont(new Font("Arial", Font.BOLD, 40));
+   label3.setForeground(Color.WHITE); // Set font color to White
+   label3.setAlignmentX(Component.CENTER_ALIGNMENT); //move the lebel to the center of the panel2 and above the button1
+   panel2.add(label3);
+
+
+   //Add a text field to the first panel
    // textField1 = new JTextField(30); // 30 columns
    // panel1.add(textField1);
 
@@ -242,7 +261,8 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
 
    public static void main(String[] args) {
         Window window = new GUI();
-      
+         window.setVisible(true); // Make the window visible
+         window.setLayout(new BorderLayout()); // Set layout manager to BorderLayout
    }
    
     //This method is called when a menu item is clicked
@@ -292,13 +312,12 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
     }
 
     //Visualize the queue
-    //Adding two black rectangles to the panel2
-      //The first rectangle is 100 pixels wide and 50 pixels high
-      //The second rectangle is 100 pixels wide and 50 pixels high
+    //Adding two gray rectangles to the panel2
+      //The first rectangle is 500 pixels wide and 20 pixels high
+      //The second rectangle is 20 pixels wide and 150 pixels high
       public void paint(Graphics g) {
          super.paint(g);
          
-         //Set the color to black
          //Set the color code to Gray
          
          g.setColor(Color.decode("#808080")); // Set color to gray

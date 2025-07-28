@@ -35,6 +35,9 @@
  * @author Duc Tran Tri
  * @version (17/06/2025)
  */
+
+//Student class
+
 public class Student
 {
     // instance variables - replace the example below with your own
