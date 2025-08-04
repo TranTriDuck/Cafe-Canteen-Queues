@@ -12,7 +12,7 @@
  * The council has determined that the simulator must:
  * 
  * 1: Have a configuration file that lists minute by minute the number of:
- *	Students arriving, staff arriving, customers served.
+ *    Students arriving, staff arriving, customers served.
  * The student council is working with maths department students to generate this information.  
  * It is not yet ready, so you will have to come up with a starting set of values.
  * 2: After each run, the simulator must show mean student and staff wait times,  
@@ -65,7 +65,8 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
     JLabel label2;
     JLabel label3;
 
-
+    // Declare a queue for students
+    java.util.Queue<String> studentQueue = new java.util.LinkedList<>();
 
    //  JTextField textField1;
 
@@ -111,13 +112,15 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
     //make the window appear on the screen 
     this.pack();
     this.toFront();
-    this.setVisible(true);
+   //  this.setVisible(true);
     
     //Add the menuBar
     
     menuBar = new JMenuBar();
     this.setJMenuBar(menuBar);
     
+
+
     //Add the menu 
     //(in this case it's the File menu)
     
@@ -156,19 +159,31 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
    
    panel1.setBackground(Color.decode("#f3f0df")); // Set background color to white
    panel1.setPreferredSize(new Dimension(1980, 200)); // Set preferred size
-   panel1.add(Box.createRigidArea(new Dimension(0, 10))); // Add space at the top of the panel
+   // panel1.add(Box.createRigidArea(new Dimension(50, 50))); // Add space at the top of the panel
    //Use BoxLayout to align components vertically
+   // panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding around the panel
+   panel1.add(Box.createHorizontalGlue()); // Add horizontal glue to center the components in panel1
 
+
+   // Create a sub-panel for logo and label1
+   JPanel logoAndLabelPanel = new JPanel();
+   logoAndLabelPanel.setLayout(new BoxLayout(logoAndLabelPanel, BoxLayout.LINE_AXIS));
+   logoAndLabelPanel.setOpaque(false); // Transparent background
 
 
    //Add a second panel to the window
    panel2 = new JPanel();
-   // panel2.setLayout(new FlowLayout(FlowLayout.CENTER  , 10, 5)); // 10 pixels between components, 5 pixels between rows
-   panel2.setBackground(Color.decode("#7bb830")); // Set background color to green
-   panel2.setPreferredSize(new Dimension(1980, 100)); // Set preferred size of panel2
-   panel2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding around the panel
-   //Set position of panel2 above panel3 and below panel1
 
+   panel2.setBackground(Color.decode("#7bb830")); // Set background color to green
+   // Set small preferred size of panel2
+   
+   // Set preferred size to the height of the button and the width of the panel equal to the width of the window
+   panel2.setPreferredSize(new Dimension(1980, 50)); // Set preferred size to the height of the button and the width of the panel equal to the width of the window
+   // panel2.add(Box.createRigidArea(new Dimension(50, 50))); // Add space at the middle of window
+   // panel2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding around the panel
+
+   //Set position of panel2 above panel3 and below panel1
+   // panel2.setLayout(new BoxLayout(panel2, BoxLayout.PAGE_AXIS)); // Set layout to BoxLayout with vertical alignment
 
 
 
@@ -177,54 +192,109 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
    panel3 = new JPanel();
    panel3.setBackground(Color.decode("#f3f0df"));
    // Set preferred size of panel3
-   panel3.setPreferredSize(new Dimension(1980, 500)); // Set preferred size
-   panel3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding around the panel
+   // Set preferred size the width of the panel equal to the width of the window
+   // Set preferred size to the height of all the space below panel2 and the width of the panel equal to the width of the window
+   panel3.setPreferredSize(new Dimension(1980, 800)); // Set preferred size to the height of all the space below panel2 and the width of the panel equal to the width of the window
+   // panel3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding around the panel
    //Add panel3 to the bottom of the
    //Set layout of panel3 to the end of the Jframe
    panel3.setLayout(new BoxLayout(panel3, BoxLayout.PAGE_AXIS)); // Set layout
+
+   //Set the layout of the content pane to vertical BoxLayout
+   this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS)); // Set layout to BoxLayout with vertical alignment
+
+   //Add the panels in the correct orders: top to bottom
+   this.getContentPane().add(panel1); // Add panel1 to the top
+   this.getContentPane().add(panel2); // Add panel2 below panel1
+   //Because the panel2 is the smallest panel, so BorderLayout does not add it to the center, it adds it to the top
+   this.getContentPane().add(panel3); // Add panel3 below panel2
 
 
    //Add a button to the first panel
    button1 = new JButton("Add student");
    button1.addActionListener(this);//allowing to create action fot the button
-   panel2.add(button1);
+   button1.setFont(new Font("Arial", Font.BOLD, 20)); // Set font for the button
+   //Set position of the button to the center of panel3 by using BoxLayout
+   button1.setPreferredSize(new Dimension(200, 50)); // Set preferred size of the button
+   button1.setAlignmentX(Component.CENTER_ALIGNMENT); // Set horizontal alignment to CENTER
+
+   panel3.add(Box.createVerticalStrut(40)); // Add vertical space above the button
+   panel3.add(Box.createHorizontalGlue()); // Add horizontal glue to center the button in panel3
+   panel3.add(button1);
    
-   //Add WHS logo to the first panel in the CENTER of label 1 and label 2 e.g: (WHS logo) Wellington High School
-   //Class variables for the image WHS logo
-   String image1 = "WHS-Logo-Master-Small.png" ; // Address of the image
-   JLabel image1Label;
+
+
+
+   // //Add WHS logo to the first panel in the CENTER of label 1 and label 2 e.g: (WHS logo) Wellington High School
+   // //Class variables for the image WHS logo
+   // String image1 = "WHS-Logo-Master-Small.png" ; // Address of the image
+   // JLabel image1Label;
     
 
 
-   //Declare image
-   ImageIcon firstImage = new ImageIcon(image1); // Create an ImageIcon from the image address
+   // //Declare image
+   // ImageIcon firstImage = new ImageIcon(image1); // Create an ImageIcon from the image address
 
-   //Add ImageIcon to JLabel we declared earlier
-   image1Label = new JLabel(firstImage);
+   // //Add ImageIcon to JLabel we declared earlier
+   // image1Label = new JLabel(firstImage);
 
-   //Add the image to the first panel
-   panel1.add(image1Label);
+   // //Add the image to the first panel
+   // panel1.add(image1Label);
 
-   // Set the size of the logo
-   int width = 100; // Width of the logo
-   int height = 100; // Height of the logo
+   // // Set the size of the logo
+   // int width = 100; // Width of the logo
+   // int height = 100; // Height of the logo
    
-   //Move image to the left side of the panel
-   image1Label.setAlignmentX(Component.LEFT_ALIGNMENT); // Set horizontal alignment to LEFT
-   Image myImage = firstImage.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH); // Get the image from the ImageIcon
-   ImageIcon scaledIcon = new ImageIcon(myImage); // Scale the image to the desired size
+   // //Move image to the left side of the panel
+   // // image1Label.setAlignmentX(Component.LEFT_ALIGNMENT); // Set horizontal alignment to LEFT
+   // Image myImage = firstImage.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH); // Get the image from the ImageIcon
+   // ImageIcon scaledIcon = new ImageIcon(myImage); // Scale the image to the desired size
 
-   image1Label.setIcon(scaledIcon); // Set the scaled image to the JLabel
+   // image1Label.setIcon(scaledIcon); // Set the scaled image to the JLabel
    
+      // Add image to the left
+   String image1 = "WHS-Logo-Master-Small.png";
+   ImageIcon firstImage = new ImageIcon(image1);
+   JLabel image1Label = new JLabel();
+   int width = 100, height = 100;
+   Image myImage = firstImage.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+   ImageIcon scaledIcon = new ImageIcon(myImage);
+   image1Label.setIcon(scaledIcon);
+   
+   // Set the alignment of the image label to the left
+   image1Label.add(Box.createVerticalGlue()); 
 
+   //Canteen Image
+   String canteenImage = "canteen.png"; // Address of the canteen image
+   ImageIcon canteenIcon = new ImageIcon(getClass().getResource("/Project Images/canteen.png"));
+   JLabel canteenImageLabel = new JLabel(canteenIcon);
+   //Set horizontal alignment of the canteen image on top of the queue
+   canteenImageLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Set horizontal alignment to CENTER
+   panel3.add(canteenImageLabel); // Add the canteen image to panel3
+   // Set the size of the canteen image
+   int canteenWidth = 400; // Width of the canteen image
+   int canteenHeight = 400; // Height of the canteen image
+   Image canteenImageScaled = canteenIcon.getImage().getScaledInstance(canteenWidth, canteenHeight, Image.SCALE_SMOOTH); // Scale the image to the desired size
+   ImageIcon scaledCanteenIcon = new ImageIcon(canteenImageScaled);
+   canteenImageLabel.setIcon(scaledCanteenIcon); // Set the scaled image to the JLabel
+   //Set hozizontal alignment of the canteen image to the center of panel3 and move on top of the queue 
+   canteenImageLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Set horizontal alignment to CENTER
+   canteenImageLabel.setAlignmentY(Component.TOP_ALIGNMENT); // Set vertical alignment to TOP
 
-
-
+   
    //Add a label to the first panel
    label1 = new JLabel("Wellington High School");
    label1.setFont(new Font("Arial", Font.BOLD, 40));
    label1.setForeground(Color.decode("#e64b6d")); // Set font color to #e64b6d
+   label1.setAlignmentY(Component.LEFT_ALIGNMENT); // Set vertical alignment to CENTER
 
+   // Add logo and label to sub-panel
+   logoAndLabelPanel.add(image1Label);
+   logoAndLabelPanel.add(Box.createHorizontalStrut(0)); // Space between logo and label
+   logoAndLabelPanel.add(label1);
+
+   // Add sub-panel to panel1
+   panel1.add(logoAndLabelPanel);
    //move the lebel to the right side of the image
    
 
@@ -246,6 +316,11 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
    label3.setAlignmentX(Component.CENTER_ALIGNMENT); //move the lebel to the center of the panel2 and above the button1
    panel2.add(label3);
 
+   this.setExtendedState(JFrame.MAXIMIZED_BOTH); // Set the window to full screen
+   // this.setUndecorated(false); // Set to true for borderless fullscreen, false
+   // to keep window borders
+   // Show the window
+   this.setVisible(true);
 
    //Add a text field to the first panel
    // textField1 = new JTextField(30); // 30 columns
@@ -261,7 +336,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
 
    public static void main(String[] args) {
         Window window = new GUI();
-         window.setVisible(true); // Make the window visible
+         // window.setVisible(true); // Make the window visible
          window.setLayout(new BorderLayout()); // Set layout manager to BorderLayout
    }
    
@@ -277,9 +352,16 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
 
             case "Add student":
                System.out.println("Button clicked, adding one student to the queue");
-               // System.out.println(textField1.getText());
-               // int input = Integer.parseInt(textField1.getText());//Print whatever is in the text field
-               // label2= new JLabel(textField1.getText());
+               // Prompt for student name
+               String name = JOptionPane.showInputDialog(this, "Enter student name:");
+               if (name != null && !name.trim().isEmpty()) {
+                  studentQueue.add(name.trim());
+                  repaint(); // Repaint the GUI to visualize the queue
+                  //Usiing Emoji to indicate that the student has been added
+                  JOptionPane.showMessageDialog(this, name + " has been added to the queue. 😊");
+               } else {
+                  JOptionPane.showMessageDialog(this, "Invalid name. Please try again.");
+               }
   
                // System.out.println(bouncer(input));
 
@@ -307,6 +389,8 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
                break;
             default:
                System.out.println("Unknown command");
+               //Create a dialog box that contains the text "Unknown command" when the user clicks an unknown command
+               GenericDialog("Unknown command");
                break;
        }
     }
@@ -315,22 +399,50 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
     //Adding two gray rectangles to the panel2
       //The first rectangle is 500 pixels wide and 20 pixels high
       //The second rectangle is 20 pixels wide and 150 pixels high
-      public void paint(Graphics g) {
-         super.paint(g);
-         
-         //Set the color code to Gray
-         
-         g.setColor(Color.decode("#808080")); // Set color to gray
+      @Override
+public void paint(Graphics g) {
+    super.paint(g);
 
-         //Draw the first rectangle
-         g.fillRect(700, 630, 500, 20);
-         
-         //Draw the second rectangle
-         g.fillRect(700, 500, 20, 150);
+    // Draw the queue rectangles
+    g.setColor(Color.decode("#808080")); // Gray
+    g.fillRect(750, 930, 600, 20); // Horizontal queue
+    g.fillRect(750, 800, 20, 150); // Vertical part
 
-         
+    // Draw students in the queue as circles or images
+   // Bigger student circles
+    int studentRadius = 50; // Increased size
+    int maxStudents = 15;
+    int queueWidth = 600;
+    // Increase the gap between students
+    int gap = (int)(((queueWidth - studentRadius) / (double)(maxStudents - 1)) * 1.5); // 1.5x gap // Dynamically calculate gap
+   // int gap = (queueWidth - studentRadius) / (maxStudents - 1); 
+   int startX = 760; // Start a bit inside the rectangle
+   //  int y = 760;      // Centered vertically in the queue rectangle
+    int y = 940 - studentRadius / 2; // Centered vertically in the queue rectangle (930 + 10 - radius/2)
+
+
+    int i = 0;
+    for (String student : studentQueue) {
+         if (i >= maxStudents) {
+               break; // Limit to maxStudents for visibility
          }
+        // Draw a circle for each student
+        g.setColor(Color.decode("#e64b6d")); // Pink color for student
+        g.fillOval(startX + i * gap, y - studentRadius / 2, studentRadius, studentRadius);
 
+        // Draw the student's initial or number
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 35));
+        String initial = student.length() > 0 ? student.substring(0, 1).toUpperCase() : "?";
+        g.drawString(initial, startX + i * gap + 3, y + 7);
+
+        i++;
+
+         if (i >= 15) { // Limit to 15 students for visibility
+               break;
+         }
+    }
+}
    
 
     //Create a new method to create a dialog box for saving
@@ -449,9 +561,9 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
       if (e.getSource() == comboBox) {
             choice = comboBox.getSelectedItem().toString();
          }
-      
-
 }
    
+
+
 }
 

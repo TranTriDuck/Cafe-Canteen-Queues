@@ -1,17 +1,14 @@
 #BlueJ class context
 comment0.target=Student
-comment0.text=\r\n\ \r\n\r\n\ @author\ Duc\ Tran\ Tri\r\n\ @version\ (17/06/2025)\r\n
-comment1.params=
-comment1.target=Student()
-comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Node\r\n
-comment2.params=student
-comment2.target=void\ setStuden(java.lang.String)
-comment2.text=-setters-
-comment3.params=next
-comment3.target=void\ setNextStudent(Student)
+comment0.text=\r\n\ \r\n\ Canteen\ Queues\r\n\ Your\ student\ council\ needs\ you\!\r\n\ The\ WHS\ student\ council\ has\ fielded\ many\ complaints\ about\ staff\ members\ jumping\ the\ queue\ in\ the\ canteen.\r\n\ They\ are\ gathering\ concrete\ information\ about\ how\ often\ this\ happens,\ and\ how\ many\ students\ turn\ up\ and\ what\ rates\ during\ interval\ and\ lunch\ time.\r\n\ While\ they\ gather\ this\ information,\r\n\ they\ have\ asked\ help\ from\ computer\ science\ students\ to\ build\ a\ simulator\ that\ will\ allow\ them\ to\ demonstrate\ how\ this\ behaviour\ by\ staff\ impacts\ students\r\n\ \r\n\ The\ task\r\n\ \r\n\ The\ council\ has\ determined\ that\ the\ simulator\ must\:\r\n\ \r\n\ 1\:\ Have\ a\ configuration\ file\ that\ lists\ minute\ by\ minute\ the\ number\ of\:\r\n\ \ \ \ Students\ arriving,\ staff\ arriving,\ customers\ served.\r\n\ The\ student\ council\ is\ working\ with\ maths\ department\ students\ to\ generate\ this\ information.\ \ \r\n\ It\ is\ not\ yet\ ready,\ so\ you\ will\ have\ to\ come\ up\ with\ a\ starting\ set\ of\ values.\r\n\ 2\:\ After\ each\ run,\ the\ simulator\ must\ show\ mean\ student\ and\ staff\ wait\ times,\ \ \r\n\ both\ in\ the\ situation\ where\ staff\ members\ are\ served\ immediately\ the\ current\ person\ is\ served,\ \r\n\ and\ when\ the\ staff\ member\ has\ to\ wait\ in\ line.\r\n\ In\ addition\ the\ simulator\ could\:\r\n\ 3\:\ Be\ able\ to\ run\ a\ configurable\ number\ of\ simulations\ on\ the\ same\ configuration\ file\ but\ introducing\ a\ small\ degree\ of\ randomness\ to\ exact\ arrivals\ and\ serving\ numbers;\ \r\n\ and\ present\ summary\ statistics.\r\n\ 4\:\ The\ simulator\ could\ have\ options\ for\ trying\ various\ \u201CWhat\ if\u201D\ scenarios\ (changed\ student/staff\ arrival\ rate\ by\ a\ %;\ changed\ time\ to\ serve%).\r\n\ 5\:\ The\ simulator\ could\ also\ be\ able\ to\ accommodate\ a\ configurable\ maximum\ queue\ length,\ after\ which\ nobody\ joins\ the\ queue\ as\ it\ is\ too\ long.\ \r\n\ Statistics\ about\ how\ many\ people\ \u201Cgo\ hungry\u201D\ because\ of\ the\ queue\ length\ in\ both\ the\ staff\ queue\ jumping,\ and\ non-queue\ jumping\ should\ also\ be\ kept\ and\ made\ available.\r\n\ \r\n\ You\ may\r\n\ You\ may\ have\ a\ purely\ text-based\ interface\ or\ use\ a\ GUI\ with\ menus\ for\ selecting\ options.\r\n\ No\ visual\ representation\ of\ a\ queue\ is\ required,\ although\ you\ may\ optionally\ provide\ one.\r\n\ If\ 2m\ distancing\ is\ in\ place\ in\ the\ queue,\ this\ will\ restrict\ the\ number\ of\ people\ in\ the\ queue,\ \r\n\ you\ might\ have\ an\ option\ for\ indicating\ how\ this\ could\ affect\ things.\r\n\ \r\n\ @author\ Duc\ Tran\ Tri\r\n\ @version\ (17/06/2025)\r\n
+comment1.params=name
+comment1.target=Student(java.lang.String)
+comment2.params=
+comment2.target=java.lang.String\ getName()
+comment3.params=name
+comment3.target=void\ setName(java.lang.String)
 comment4.params=
-comment4.target=java.lang.String\ getStudent()
-comment4.text=getters
-comment5.params=
-comment5.target=Student\ getNextStudent()
+comment4.target=Student\ getNextStudent()
+comment5.params=next
+comment5.target=void\ setNextStudent(Student)
 numComments=6

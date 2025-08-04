@@ -13,7 +13,7 @@
  * The council has determined that the simulator must:
  * 
  * 1: Have a configuration file that lists minute by minute the number of:
- *	Students arriving, staff arriving, customers served.
+ *    Students arriving, staff arriving, customers served.
  * The student council is working with maths department students to generate this information.  
  * It is not yet ready, so you will have to come up with a starting set of values.
  * 2: After each run, the simulator must show mean student and staff wait times,  
@@ -38,40 +38,28 @@
 
 //Student class
 
-public class Student
-{
-    // instance variables - replace the example below with your own
-    private String student;
+public class Student {
+    private String name;
     private Student next;
-    
-    /**
-     * Constructor for objects of class Node
-     */
-    public Student()
-    {
-        // initialise instance variables
-        this.student = student;
-    }
-    
-    /*-setters-*/
-    public void setStudent(String student)
-    {
-        this.student = student;
+
+    public Student(String name) {
+        this.name = name;
+        this.next = null;
     }
 
-    public void setNextStudent(Student next)
-    {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Student getNextStudent() {
+        return next;
+    }
+
+    public void setNextStudent(Student next) {
         this.next = next;
-    }
-
-    /*getters*/
-    public String getStudent()
-    {
-        return this.student;
-    }
-
-    public Student getNextStudent()
-    {
-        return this.next;
     }
 }
