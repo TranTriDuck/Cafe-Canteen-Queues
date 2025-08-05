@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=CanteenSimulator
+comment1.params=filename
+comment1.target=void\ loadConfig(java.lang.String)
+comment2.params=staffJump
+comment2.target=CanteenSimulator.Result\ runSimulation(boolean)
+numComments=3

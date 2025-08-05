@@ -66,8 +66,8 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
     JLabel label3;
 
     // Declare a queue for students
-    java.util.Queue<String> studentQueue = new java.util.LinkedList<>();
-
+   //  java.util.Queue<String> studentQueue = new java.util.LinkedList<>();
+   java.util.Queue<Person> queue = new java.util.LinkedList<>();
    //  JTextField textField1;
 
     JComboBox comboBox;
@@ -210,20 +210,38 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
    this.getContentPane().add(panel3); // Add panel3 below panel2
 
 
-   //Add a button to the first panel
-   button1 = new JButton("Add student");
-   button1.addActionListener(this);//allowing to create action fot the button
-   button1.setFont(new Font("Arial", Font.BOLD, 20)); // Set font for the button
-   //Set position of the button to the center of panel3 by using BoxLayout
-   button1.setPreferredSize(new Dimension(200, 50)); // Set preferred size of the button
-   button1.setAlignmentX(Component.CENTER_ALIGNMENT); // Set horizontal alignment to CENTER
+   // Create a new panel for the buttons with horizontal BoxLayout
+   JPanel buttonPanel = new JPanel();
+   buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+   buttonPanel.setOpaque(false); // Transparent background
 
-   panel3.add(Box.createVerticalStrut(40)); // Add vertical space above the button
-   panel3.add(Box.createHorizontalGlue()); // Add horizontal glue to center the button in panel3
-   panel3.add(button1);
+   //Remove the button1 and add a new button to run the simulation because this feature take so much time to work on and unnecessary for the project
+   // button1 = new JButton("Add student");
+   // button1.addActionListener(this);
+   // button1.setFont(new Font("Arial", Font.BOLD, 20));
+   // button1.setPreferredSize(new Dimension(200, 50));
+
+
+
+   JButton simulateButton = new JButton("Run Simulation");
+   simulateButton.setFont(new Font("Arial", Font.BOLD, 20));
+   simulateButton.setPreferredSize(new Dimension(200, 50));
+   simulateButton.addActionListener(e -> runSimulation());
+
+
+   buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button panel horizontally
+
+   // Add buttons to the panel with glue in between
+   // buttonPanel.add(button1); // Left
+   // buttonPanel.add(Box.createHorizontalGlue());
    
+   buttonPanel.add(simulateButton); // Right
 
+   // Add some vertical space above the button panel if you want
+   panel3.add(Box.createVerticalStrut(40));
+   panel3.add(buttonPanel);
 
+   
 
    // //Add WHS logo to the first panel in the CENTER of label 1 and label 2 e.g: (WHS logo) Wellington High School
    // //Class variables for the image WHS logo
@@ -298,7 +316,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
    //move the lebel to the right side of the image
    
 
-   panel1.add(label1);
+   // panel1.add(label1);
 
    //Add a label to the second panel
    label2 = new JLabel("Te Kura Tuarua o Taraika ki Pukeahu");
@@ -307,8 +325,19 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
   
    //Set the size of the label2 only enough to fit the text
    label2.setPreferredSize(new Dimension(500, 50)); 
-   panel1.add(label2);
+   // panel1.add(label2);
    
+   // Create a vertical panel for the two labels
+   JPanel labelsPanel = new JPanel();
+   labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.PAGE_AXIS));
+   labelsPanel.setOpaque(false);
+   labelsPanel.add(label1);
+   labelsPanel.add(label2);
+
+   // Add image and labels panel to the horizontal panel
+   logoAndLabelPanel.add(image1Label);
+   logoAndLabelPanel.add(Box.createHorizontalStrut(20)); // Space between image and labels
+   logoAndLabelPanel.add(labelsPanel);
 
    label3 = new JLabel("Canteen");
    label3.setFont(new Font("Arial", Font.BOLD, 40));
@@ -351,23 +380,15 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
        switch(command){
 
             case "Add student":
-               System.out.println("Button clicked, adding one student to the queue");
-               // Prompt for student name
                String name = JOptionPane.showInputDialog(this, "Enter student name:");
                if (name != null && !name.trim().isEmpty()) {
-                  studentQueue.add(name.trim());
-                  repaint(); // Repaint the GUI to visualize the queue
-                  //Usiing Emoji to indicate that the student has been added
+                  queue.add(new Person(name.trim(), Person.Type.STUDENT));
+                  repaint();
                   JOptionPane.showMessageDialog(this, name + " has been added to the queue. 😊");
                } else {
                   JOptionPane.showMessageDialog(this, "Invalid name. Please try again.");
                }
-  
-               // System.out.println(bouncer(input));
-
-
-
-                break;
+               break;
                 
             case "New":
                System.out.println("Creating new document...");
@@ -422,25 +443,31 @@ public void paint(Graphics g) {
 
 
     int i = 0;
-    for (String student : studentQueue) {
-         if (i >= maxStudents) {
-               break; // Limit to maxStudents for visibility
-         }
-        // Draw a circle for each student
-        g.setColor(Color.decode("#e64b6d")); // Pink color for student
-        g.fillOval(startX + i * gap, y - studentRadius / 2, studentRadius, studentRadius);
+   for (Person person : queue) {
+      if (i >= maxStudents) break;
+      // Set color based on type
+      if (person.type == Person.Type.STUDENT) {
+         g.setColor(Color.decode("#e64b6d")); // Pink for students
+      } else {
+         g.setColor(Color.decode("#7bb830")); // Green for staff
+      }
+      g.fillOval(startX + i * gap, y - studentRadius / 2, studentRadius, studentRadius);
 
-        // Draw the student's initial or number
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 35));
-        String initial = student.length() > 0 ? student.substring(0, 1).toUpperCase() : "?";
-        g.drawString(initial, startX + i * gap + 3, y + 7);
+      // Draw the person's initial
+      g.setColor(Color.WHITE);
+      g.setFont(new Font("Arial", Font.BOLD, 35));
+      String initial = person.name.length() > 0 ? person.name.substring(0, 1).toUpperCase() : "?";
+      g.drawString(initial, startX + i * gap + 3, y + 7);
 
-        i++;
+      // Add emoji for staff members
+      if (person.type == Person.Type.STAFF) {
+         g.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 25));
+         g.drawString("👨‍🏫", startX + i * gap + 20, y + 35);
+      }
 
-         if (i >= 15) { // Limit to 15 students for visibility
-               break;
-         }
+      i++;
+      if (i >= 15) break;
+      
     }
 }
    
@@ -562,7 +589,35 @@ public void paint(Graphics g) {
             choice = comboBox.getSelectedItem().toString();
          }
 }
-   
+   private void runSimulation() {
+    try {
+        CanteenSimulator sim = new CanteenSimulator();
+        sim.loadConfig("config.csv"); // Make sure config.csv is in your project folder
+
+        // Run both modes
+        CanteenSimulator.Result jump = sim.runSimulation(true);
+        CanteenSimulator.Result noJump = sim.runSimulation(false);
+
+        String msg =
+            "🧾 ----------- Canteen Simulation Receipt ----------- 🧾\n\n" +
+            "🍽️  Staff Jump Queue:\n" +
+            "   👩‍🎓 Mean Student Wait: " + String.format("%.2f", jump.meanStudentWait) + " min\n" +
+            "   👨‍🏫 Mean Staff Wait: " + String.format("%.2f", jump.meanStaffWait) + " min\n" +
+            "   😢 Hungry Students: " + jump.hungryStudents + "\n" +
+            "   😬 Hungry Staff: " + jump.hungryStaff + "\n\n" +
+            "---------------------------------------------\n\n" +
+            "🍽️  Staff Wait Normally:\n" +
+            "   👩‍🎓 Mean Student Wait: " + String.format("%.2f", noJump.meanStudentWait) + " min\n" +
+            "   👨‍🏫 Mean Staff Wait: " + String.format("%.2f", noJump.meanStaffWait) + " min\n" +
+            "   😢 Hungry Students: " + noJump.hungryStudents + "\n" +
+            "   😬 Hungry Staff: " + noJump.hungryStaff + "\n" +
+            "🧾 --------------------------------------------- 🧾";
+
+        JOptionPane.showMessageDialog(this, msg, "Simulation Results", JOptionPane.INFORMATION_MESSAGE);
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
+}
 
 
 }
