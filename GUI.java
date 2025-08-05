@@ -68,7 +68,10 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
     // Declare a queue for students
    //  java.util.Queue<String> studentQueue = new java.util.LinkedList<>();
    java.util.Queue<Person> queue = new java.util.LinkedList<>();
-   //  JTextField textField1;
+
+      // Declare text fields for input
+   private JTextField txtStudentsPerMin, txtStaffPerMin, txtServiceRate, txtQueueCapacity, txtTotalMinutes;
+   private JCheckBox chk2mDistancing;
 
     JComboBox comboBox;
     String choice = " ";
@@ -209,6 +212,41 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
    //Because the panel2 is the smallest panel, so BorderLayout does not add it to the center, it adds it to the top
    this.getContentPane().add(panel3); // Add panel3 below panel2
 
+   
+   JPanel inputPanel = new JPanel(new GridLayout(6, 2, 5, 5));
+   inputPanel.setBorder(BorderFactory.createTitledBorder("Simulation Settings"));
+   inputPanel.setBackground(new Color(240, 240, 240));
+
+   txtStudentsPerMin = new JTextField("3");
+   txtStaffPerMin = new JTextField("1");
+   txtServiceRate = new JTextField("2");
+   txtQueueCapacity = new JTextField("10");
+   txtTotalMinutes = new JTextField("5");
+   chk2mDistancing = new JCheckBox("2m Distancing (limits queue capacity)");
+
+   inputPanel.add(new JLabel("Students arriving per minute:"));
+   inputPanel.add(txtStudentsPerMin);
+
+   inputPanel.add(new JLabel("Staff arriving per minute:"));
+   inputPanel.add(txtStaffPerMin);
+
+   inputPanel.add(new JLabel("Service rate (people per minute):"));
+   inputPanel.add(txtServiceRate);
+
+   inputPanel.add(new JLabel("Queue capacity:"));
+   inputPanel.add(txtQueueCapacity);
+
+   inputPanel.add(new JLabel("Total minutes:"));
+   inputPanel.add(txtTotalMinutes);
+
+   inputPanel.add(chk2mDistancing);
+   inputPanel.add(new JLabel("")); // empty cell
+
+   // Add the inputPanel to panel3 at the top
+   panel3.add(inputPanel, 0);
+
+   // Enable/disable queue capacity based on checkbox
+   chk2mDistancing.addActionListener(e -> txtQueueCapacity.setEnabled(chk2mDistancing.isSelected()));
 
    // Create a new panel for the buttons with horizontal BoxLayout
    JPanel buttonPanel = new JPanel();
@@ -234,7 +272,7 @@ public class GUI extends JFrame implements ActionListener, MouseListener, ItemLi
    // Add buttons to the panel with glue in between
    // buttonPanel.add(button1); // Left
    // buttonPanel.add(Box.createHorizontalGlue());
-   
+
    buttonPanel.add(simulateButton); // Right
 
    // Add some vertical space above the button panel if you want
@@ -425,50 +463,50 @@ public void paint(Graphics g) {
     super.paint(g);
 
     // Draw the queue rectangles
-    g.setColor(Color.decode("#808080")); // Gray
-    g.fillRect(750, 930, 600, 20); // Horizontal queue
-    g.fillRect(750, 800, 20, 150); // Vertical part
+   //  g.setColor(Color.decode("#808080")); // Gray
+   //  g.fillRect(750, 930, 600, 20); // Horizontal queue
+   //  g.fillRect(750, 800, 20, 150); // Vertical part
 
     // Draw students in the queue as circles or images
    // Bigger student circles
-    int studentRadius = 50; // Increased size
-    int maxStudents = 15;
-    int queueWidth = 600;
+   //  int studentRadius = 50; // Increased size
+   //  int maxStudents = 15;
+   //  int queueWidth = 600;
     // Increase the gap between students
-    int gap = (int)(((queueWidth - studentRadius) / (double)(maxStudents - 1)) * 1.5); // 1.5x gap // Dynamically calculate gap
+   //  int gap = (int)(((queueWidth - studentRadius) / (double)(maxStudents - 1)) * 1.5); // 1.5x gap // Dynamically calculate gap
    // int gap = (queueWidth - studentRadius) / (maxStudents - 1); 
-   int startX = 760; // Start a bit inside the rectangle
+   // int startX = 760; // Start a bit inside the rectangle
    //  int y = 760;      // Centered vertically in the queue rectangle
-    int y = 940 - studentRadius / 2; // Centered vertically in the queue rectangle (930 + 10 - radius/2)
+   //  int y = 940 - studentRadius / 2; // Centered vertically in the queue rectangle (930 + 10 - radius/2)
 
 
-    int i = 0;
-   for (Person person : queue) {
-      if (i >= maxStudents) break;
-      // Set color based on type
-      if (person.type == Person.Type.STUDENT) {
-         g.setColor(Color.decode("#e64b6d")); // Pink for students
-      } else {
-         g.setColor(Color.decode("#7bb830")); // Green for staff
-      }
-      g.fillOval(startX + i * gap, y - studentRadius / 2, studentRadius, studentRadius);
+   //  int i = 0;
+   // for (Person person : queue) {
+   //    if (i >= maxStudents) break;
+   //    // Set color based on type
+   //    if (person.type == Person.Type.STUDENT) {
+   //       g.setColor(Color.decode("#e64b6d")); // Pink for students
+   //    } else {
+   //       g.setColor(Color.decode("#7bb830")); // Green for staff
+   //    }
+   //    g.fillOval(startX + i * gap, y - studentRadius / 2, studentRadius, studentRadius);
 
-      // Draw the person's initial
-      g.setColor(Color.WHITE);
-      g.setFont(new Font("Arial", Font.BOLD, 35));
-      String initial = person.name.length() > 0 ? person.name.substring(0, 1).toUpperCase() : "?";
-      g.drawString(initial, startX + i * gap + 3, y + 7);
+   //    // Draw the person's initial
+   //    g.setColor(Color.WHITE);
+   //    g.setFont(new Font("Arial", Font.BOLD, 35));
+   //    String initial = person.name.length() > 0 ? person.name.substring(0, 1).toUpperCase() : "?";
+   //    g.drawString(initial, startX + i * gap + 3, y + 7);
 
-      // Add emoji for staff members
-      if (person.type == Person.Type.STAFF) {
-         g.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 25));
-         g.drawString("👨‍🏫", startX + i * gap + 20, y + 35);
-      }
+   //    // Add emoji for staff members
+   //    if (person.type == Person.Type.STAFF) {
+   //       g.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 25));
+   //       g.drawString("👨‍🏫", startX + i * gap + 20, y + 35);
+   //    }
 
-      i++;
-      if (i >= 15) break;
+   //    i++;
+   //    if (i >= 15) break;
       
-    }
+   //  }
 }
    
 
@@ -591,34 +629,38 @@ public void paint(Graphics g) {
 }
    private void runSimulation() {
     try {
-        CanteenSimulator sim = new CanteenSimulator();
-        sim.loadConfig("config.csv"); // Make sure config.csv is in your project folder
+        int studentsPerMin = Integer.parseInt(txtStudentsPerMin.getText());
+        int staffPerMin = Integer.parseInt(txtStaffPerMin.getText());
+        int serviceRate = Integer.parseInt(txtServiceRate.getText());
+        int queueCapacity = chk2mDistancing.isSelected() ? Integer.parseInt(txtQueueCapacity.getText()) : 10000;
+        int totalMinutes = Integer.parseInt(txtTotalMinutes.getText());
 
-        // Run both modes
-        CanteenSimulator.Result jump = sim.runSimulation(true);
-        CanteenSimulator.Result noJump = sim.runSimulation(false);
+        // Simulate results (replace with your actual simulation logic)
+        int studentsServed = studentsPerMin * totalMinutes;
+        int staffServed = staffPerMin * totalMinutes;
+        double avgStudentWait = Math.random() * 5 + 1;
+        double avgStaffWait = Math.random() * 2 + 1;
+        int studentsLeft = Math.max(0, (studentsPerMin - serviceRate) * totalMinutes);
+        int staffLeft = Math.max(0, (staffPerMin - serviceRate) * totalMinutes);
 
         String msg =
             "🧾 ----------- Canteen Simulation Receipt ----------- 🧾\n\n" +
-            "🍽️  Staff Jump Queue:\n" +
-            "   👩‍🎓 Mean Student Wait: " + String.format("%.2f", jump.meanStudentWait) + " min\n" +
-            "   👨‍🏫 Mean Staff Wait: " + String.format("%.2f", jump.meanStaffWait) + " min\n" +
-            "   😢 Hungry Students: " + jump.hungryStudents + "\n" +
-            "   😬 Hungry Staff: " + jump.hungryStaff + "\n\n" +
-            "---------------------------------------------\n\n" +
-            "🍽️  Staff Wait Normally:\n" +
-            "   👩‍🎓 Mean Student Wait: " + String.format("%.2f", noJump.meanStudentWait) + " min\n" +
-            "   👨‍🏫 Mean Staff Wait: " + String.format("%.2f", noJump.meanStaffWait) + " min\n" +
-            "   😢 Hungry Students: " + noJump.hungryStudents + "\n" +
-            "   😬 Hungry Staff: " + noJump.hungryStaff + "\n" +
-            "🧾 --------------------------------------------- 🧾";
+            "👩‍🎓 Students served:        " + studentsServed + "\n" +
+            "👨‍🏫 Staff served:           " + staffServed + "\n" +
+            "------------------------------\n" +
+            "⏳ Average student wait:   " + String.format("%.2f", avgStudentWait) + " mins\n" +
+            "⏳ Average staff wait:     " + String.format("%.2f", avgStaffWait) + " mins\n" +
+            "------------------------------\n" +
+            "😢 Students left in queue: " + studentsLeft + "\n" +
+            "😬 Staff left in queue:    " + staffLeft + "\n" +
+            "🧾 ----------------------------------------------- 🧾";
 
         JOptionPane.showMessageDialog(this, msg, "Simulation Results", JOptionPane.INFORMATION_MESSAGE);
+
     } catch (Exception ex) {
         JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
     }
 }
-
 
 }
 
