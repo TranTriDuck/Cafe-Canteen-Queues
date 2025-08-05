@@ -629,24 +629,48 @@ public void paint(Graphics g) {
 }
    private void runSimulation() {
     try {
-        int studentsPerMin = Integer.parseInt(txtStudentsPerMin.getText());
-        int staffPerMin = Integer.parseInt(txtStaffPerMin.getText());
-        int serviceRate = Integer.parseInt(txtServiceRate.getText());
-        int queueCapacity = chk2mDistancing.isSelected() ? Integer.parseInt(txtQueueCapacity.getText()) : 10000;
-        int totalMinutes = Integer.parseInt(txtTotalMinutes.getText());
+        double studentsPerMin = Double.parseDouble(txtStudentsPerMin.getText().trim());
+        double staffPerMin = Double.parseDouble(txtStaffPerMin.getText().trim());
+        double serviceRate = Double.parseDouble(txtServiceRate.getText().trim());
+        int queueCapacity = chk2mDistancing.isSelected() ? Integer.parseInt(txtQueueCapacity.getText().trim()) : 10000;
+        int totalMinutes = Integer.parseInt(txtTotalMinutes.getText().trim());
 
-        // Simulate results (replace with your actual simulation logic)
-        int studentsServed = studentsPerMin * totalMinutes;
-        int staffServed = staffPerMin * totalMinutes;
+        // Validate input
+        if (studentsPerMin < 0 || staffPerMin < 0 || serviceRate < 0 || queueCapacity < 0 || totalMinutes <= 0) {
+            JOptionPane.showMessageDialog(this, "All numbers must be positive and total minutes must be greater than zero.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (studentsPerMin > 10000 || staffPerMin > 10000 || serviceRate > 10000 || queueCapacity > 100000) {
+            JOptionPane.showMessageDialog(this, "Numbers are too large! Please enter realistic values.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Simulate results (simple logic for decimals)
+        double totalStudents = 0, totalStaff = 0, totalServed = 0;
+        double studentsServed = 0, staffServed = 0;
         double avgStudentWait = Math.random() * 5 + 1;
         double avgStaffWait = Math.random() * 2 + 1;
-        int studentsLeft = Math.max(0, (studentsPerMin - serviceRate) * totalMinutes);
-        int staffLeft = Math.max(0, (staffPerMin - serviceRate) * totalMinutes);
+
+        for (int i = 0; i < totalMinutes; i++) {
+            totalStudents += studentsPerMin;
+            totalStaff += staffPerMin;
+            double toServe = Math.min(serviceRate, totalStudents + totalStaff);
+            double serveStudents = Math.min(toServe, totalStudents);
+            double serveStaff = toServe - serveStudents;
+
+            studentsServed += serveStudents;
+            staffServed += serveStaff;
+            totalStudents -= serveStudents;
+            totalStaff -= serveStaff;
+        }
+
+        int studentsLeft = (int)Math.round(totalStudents);
+        int staffLeft = (int)Math.round(totalStaff);
 
         String msg =
             "🧾 ----------- Canteen Simulation Receipt ----------- 🧾\n\n" +
-            "👩‍🎓 Students served:        " + studentsServed + "\n" +
-            "👨‍🏫 Staff served:           " + staffServed + "\n" +
+            "👩‍🎓 Students served:        " + (int)Math.round(studentsServed) + "\n" +
+            "👨‍🏫 Staff served:           " + (int)Math.round(staffServed) + "\n" +
             "------------------------------\n" +
             "⏳ Average student wait:   " + String.format("%.2f", avgStudentWait) + " mins\n" +
             "⏳ Average staff wait:     " + String.format("%.2f", avgStaffWait) + " mins\n" +
@@ -657,10 +681,10 @@ public void paint(Graphics g) {
 
         JOptionPane.showMessageDialog(this, msg, "Simulation Results", JOptionPane.INFORMATION_MESSAGE);
 
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Please enter valid numbers in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
     } catch (Exception ex) {
         JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
     }
+  }
 }
-
-}
-
